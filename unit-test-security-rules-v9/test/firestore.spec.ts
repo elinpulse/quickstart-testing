@@ -15,7 +15,7 @@
  */
 import { describe, test, beforeEach, beforeAll, afterAll, expect } from '@jest/globals';
 import { initializeTestEnvironment, RulesTestEnvironment } from '@firebase/rules-unit-testing';
-import { expectFirestorePermissionDenied, expectFirestorePermissionUpdateSucceeds, getFirestoreCoverageMeta } from './utils';
+import { expectFirestorePermissionDenied, expectFirestorePermissionUpdateSucceeds, getFirestoreCoverageMeta, expectPermissionGetSucceeds } from './utils';
 import { readFileSync, createWriteStream } from "node:fs";
 import { get } from "node:http";
 import { resolve } from 'node:path';
@@ -81,8 +81,7 @@ describe("Public user profiles", () => {
     const unauthedDb = testEnv.unauthenticatedContext().firestore();
 
     // Then test security rules by trying to read it using the client SDK.
-    expect(true).toBe(true);
-    // await expectPermissionGetSucceeds(getDoc(doc(unauthedDb, 'users/foobar')));
+    await expectPermissionGetSucceeds(getDoc(doc(unauthedDb, 'users/foobar')));
   });
 
   test('should not allow users to read from a random collection', async () => {
